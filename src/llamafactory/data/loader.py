@@ -17,6 +17,7 @@ import sys
 from typing import TYPE_CHECKING, Dict, Literal, Optional, Sequence, Union
 
 import numpy as np
+import datasets
 from datasets import DatasetDict, load_dataset, load_from_disk
 from transformers.utils.versions import require_version
 
@@ -53,7 +54,7 @@ def _load_single_dataset(
     """
     logger.info_rank0(f"Loading dataset {dataset_attr}...")
     data_path, data_name, data_dir, data_files = None, None, None, None
-    if dataset_attr.load_from in ["hf_hub", "ms_hub", "om_hub"]:
+    if dataset_attr.load_from in ["hf_hub", "ms_hub", "om_hub", "local_hub"]:
         data_path = dataset_attr.dataset_name
         data_name = dataset_attr.subset
         data_dir = dataset_attr.folder
@@ -118,6 +119,9 @@ def _load_single_dataset(
             token=model_args.om_hub_token,
             streaming=data_args.streaming,
         )
+    elif dataset_attr.load_from == "local_hub":
+        logger.info_rank0(dataset_attr)
+        dataset = datasets.load_from_disk(dataset_attr.dataset_name)
     else:
         dataset = load_dataset(
             path=data_path,

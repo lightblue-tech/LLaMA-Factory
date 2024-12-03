@@ -624,5 +624,40 @@
       "prompt": "content"
     },
     "folder": "python"
+  },
+  "gemma_train_data": {
+    "file_name": "gpt_train_lines.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "qwen2vl": {
+    "file_name": "qwen2vl_train_lines.jsonl",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages",
+      "images": "images"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "pretrain": {
+    "local_hub_url": "/home/s_higuchi/LLaMA-Factory/data/20241202_事前学習",
+    "columns": {
+      "prompt": "text"
+    }
   }
 }

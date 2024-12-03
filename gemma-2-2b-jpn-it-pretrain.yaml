@@ -1,0 +1,40 @@
+### model
+model_name_or_path: google/gemma-2-2b-jpn-it
+
+### method
+stage: pt
+do_train: true
+finetuning_type: full
+deepspeed: examples/deepspeed/ds_z2_config.json
+
+### dataset
+dataset: pretrain
+cutoff_len: 4096
+overwrite_cache: false
+preprocessing_num_workers: 96
+
+### output
+output_dir: gemma-2-2b-jpn-pretrain
+logging_steps: 100
+save_steps: 10000
+plot_loss: true
+max_samples: 2000000
+overwrite_output_dir: true
+report_to: tensorboard
+logging_dir: tensorboard_logs_gemma_pretrain
+
+### train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 1
+learning_rate: 1.0e-5
+num_train_epochs: 1.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 180000000
+
+### eval
+val_size: 0.001
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 10000

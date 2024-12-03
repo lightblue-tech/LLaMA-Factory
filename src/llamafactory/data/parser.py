@@ -114,12 +114,15 @@ def get_dataset_list(dataset_names: Optional[Sequence[str]], dataset_dir: str) -
         has_hf_url = "hf_hub_url" in dataset_info[name]
         has_ms_url = "ms_hub_url" in dataset_info[name]
         has_om_url = "om_hub_url" in dataset_info[name]
+        has_local_url = "local_hub_url" in dataset_info[name]
 
-        if has_hf_url or has_ms_url or has_om_url:
+        if has_hf_url or has_ms_url or has_om_url or has_local_url:
             if has_ms_url and (use_modelscope() or not has_hf_url):
                 dataset_attr = DatasetAttr("ms_hub", dataset_name=dataset_info[name]["ms_hub_url"])
             elif has_om_url and (use_openmind() or not has_hf_url):
                 dataset_attr = DatasetAttr("om_hub", dataset_name=dataset_info[name]["om_hub_url"])
+            elif has_local_url:
+                dataset_attr = DatasetAttr("local_hub", dataset_name=dataset_info[name]["local_hub_url"])
             else:
                 dataset_attr = DatasetAttr("hf_hub", dataset_name=dataset_info[name]["hf_hub_url"])
         elif "script_url" in dataset_info[name]:

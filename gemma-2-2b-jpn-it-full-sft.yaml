@@ -1,0 +1,48 @@
+### model
+# model_name_or_path: google/gemma-2-2b-jpn-it
+model_name_or_path: gemma-2-2b-jpn-pretrain
+
+### method
+stage: sft
+do_train: true
+finetuning_type: full
+# use_adam_mini: true
+# use_badam: true
+# badam_mode: layer
+# badam_switch_mode: ascending
+# badam_switch_interval: 50
+# badam_verbose: 2
+deepspeed: examples/deepspeed/ds_z2_config.json
+flash_attn: fa2
+
+### dataset
+dataset: gemma_train_data
+template: gemma
+cutoff_len: 4096
+overwrite_cache: true
+preprocessing_num_workers: 16
+
+### output
+output_dir: gemma-2-2b-jpn-continuous-sft
+logging_steps: 10
+save_steps: 1000
+plot_loss: true
+overwrite_output_dir: true
+report_to: tensorboard
+logging_dir: tensorboard_logs_gemma_continuous_sft
+
+### train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 4
+learning_rate: 1.0e-5
+num_train_epochs: 1.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 180000000
+
+### eval
+val_size: 0.001
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 500
